@@ -1,5 +1,4 @@
 using DeepConvert
 using Base.Test
 
-# write your own tests here
-@test 1 == 1
+include("deepconvert_test.jl")
