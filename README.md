@@ -17,13 +17,16 @@ to Int128
 ```julia
 julia> using DeepConvert
 
+julia> int128(2 * (10^19 + 10^17))  # does not do what you want
+1753255926290448384
+
 julia> @mkdeepconvert(convint128,int128)
 convint128 (generic function with 3 methods)
 
-julia> convint128(:( 2 * (10^19 + 10^17) ))
+julia> convint128(:( 2 * (10^19 + 10^17) )) # does what you want
 20200000000000000000
 
-julia> convint128( "2 * (10^19 + 10^17)" )
+julia> convint128( "2 * (10^19 + 10^17)" )  # can use double quotes, as well
 20200000000000000000
 
 julia> @mkdeepconvert(convuint64,uint64)
@@ -61,5 +64,3 @@ julia> resb = conv128b(:( 1//4 ))
 julia> typeof(resb)
 Rational{Int128} (constructor with 1 method)
 ```
-
-
