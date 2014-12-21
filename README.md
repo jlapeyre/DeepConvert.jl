@@ -15,10 +15,10 @@ Two examples of non-standard AbstractString literals are exported,
 ```BigInt```s from strings.
 
 ```julia
-julia> BigInt[2^64,2^63]
-2-element Array{BigInt,1}:  # it is an array of BigInt's!
-                    0
+julia> BigInt[2^63,2^64]    # an array of BigInt's!
+2-element Array{BigInt,1}:
  -9223372036854775808
+                    0
 
 julia> using DeepConvert
 julia> a = bi"[2^63, 2^64]"
