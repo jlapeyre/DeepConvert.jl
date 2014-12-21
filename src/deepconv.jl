@@ -51,3 +51,27 @@ macro mkdeepconvert1(ff, ccfunc)
         ($f)(x) = ($cfunc)(x)
     end
 end
+
+macro mkdeepconvert2(ff, ccfunc, targtype)
+    f = esc(ff)
+    cfunc = esc(ccfunc)
+    quote
+        function $(f)(ex::Expr)
+             Expr(ex.head, map(
+              (x) ->
+             begin
+               tx = typeof(x)
+               if tx <: $targtype
+                   return ($cfunc)(x)
+               elseif  tx == Expr
+                       return ($f)(x)
+               else
+                   return x
+               end
+             end,
+             ex.args)...)
+        end
+        ($f)(x::String) = ($f)(parse(x))
+        ($f)(x) = ($cfunc)(x)
+    end
+end

@@ -1,8 +1,8 @@
 module DeepConvert
 
-export @mkdeepconvert, @mkdeepconvert1, @bi_str, @bf_str
+export @mkdeepconvert, @mkdeepconvert1, @mkdeepconvert2, @bi_str, @bf_str, @bigint
 
 include("deepconv.jl")
-include("bigintfloat.jl")
+include("intsandfloats.jl")
 
 end # module

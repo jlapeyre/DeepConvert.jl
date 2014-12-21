@@ -98,6 +98,36 @@ Rational{Int128} (constructor with 1 method)
 @mkdeepconvert(deepbigint,BigInt)
 macro bi_str(s) deepbigint(s) end 
 ```
+
+## @bigint
+
+This is another experiment. Any Int and Int128 values in the
+expression following ```@bigint``` are converted to ```BigInt```. A contrived
+example:
+
+```julia
+@bigint function g(x)
+           return 2^64 * x
+        end
+```
+Gives this,
+
+```julia
+julia> g(2.0)
+3.6893488147419103232e+19 with 256 bits of precision
+```
+
+To override the macro, you have to ask for the smaller type,
+
+```julia
+@bigint function g(x)
+           return int(2)^int(64) * x   # always returns zero
+        end
+```
+
+In effect, this temporarily makes ```BigInt``` the default integer type.
+
+
 <!--  LocalWords:  DeepConvert AbstractString BigFloat BigInt julia
  -->
 <!--  LocalWords:  BigInt's mkdeepconvert funcname convfunc convint
