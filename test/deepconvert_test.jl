@@ -27,3 +27,5 @@ resb = conv128b(:( 1//4 ))
 @test conv128a("2^63") == int128(2)^63
 aa = BigInt[BigInt(2)^64,BigInt(2)^63]
 @test aa == bi"[2^64,2^63]"
+
+@test bi"(10^53 - 1) // 9"  == (BigInt(10)^53-1)//9
