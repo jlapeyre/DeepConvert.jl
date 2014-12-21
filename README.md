@@ -95,7 +95,7 @@ Rational{Int128} (constructor with 1 method)
 ```bi``` is implemented by
 
 ```julia
-@mkdeepconvert!(deepbigint,BigInt)
+@mkdeepconvert(deepbigint,BigInt)
 macro bi_str(s) deepbigint(s) end 
 ```
 <!--  LocalWords:  DeepConvert AbstractString BigFloat BigInt julia
