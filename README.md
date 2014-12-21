@@ -15,8 +15,8 @@ Two examples of non-standard AbstractString literals are exported,
 ```BigInt```s from strings.
 
 ```julia
-julia> BigInt[2^63,2^64]    # an array of BigInt's!
-2-element Array{BigInt,1}:
+julia> BigInt[2^63,2^64]
+2-element Array{BigInt,1}:  # awesome, an array of BigInt's!
  -9223372036854775808
                     0
 
@@ -25,6 +25,11 @@ julia> a = bi"[2^63, 2^64]"
 2-element Array{BigInt,1}:
   9223372036854775808
  18446744073709551616
+```
+
+```julia
+julia> round(bf"((1+2e-50)-(1+1e-50))/(1e-50)")
+1e+00 with 256 bits of precision
 ```
 
 ## @mkdeepconvert(funcname, convfunc)
@@ -85,7 +90,7 @@ julia> typeof(resb)
 Rational{Int128} (constructor with 1 method)
 ```
 
-## bi, bf  non-standard AbstractString literals
+## bi, bf non-standard AbstractString literals
 
 ```bi``` is implemented by
 
@@ -93,7 +98,6 @@ Rational{Int128} (constructor with 1 method)
 @mkdeepconvert!(deepbigint,BigInt)
 macro bi_str(s) deepbigint(s) end 
 ```
-
 <!--  LocalWords:  DeepConvert AbstractString BigFloat BigInt julia
  -->
 <!--  LocalWords:  BigInt's mkdeepconvert funcname convfunc convint
