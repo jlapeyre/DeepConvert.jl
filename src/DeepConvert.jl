@@ -1,6 +1,6 @@
 module DeepConvert
 
-export @mkdeepconvert, @mkdeepconvert1
+export @mkdeepconvert, @mkdeepconvert1, @bi_str, @bf_str
 
 # ff is the name of the function to be generated.
 # ccfunc is the existing function that does the conversion.
@@ -54,6 +54,18 @@ macro mkdeepconvert1(ff, ccfunc)
         ($f)(x::String) = ($f)(parse(x))
         ($f)(x) = ($cfunc)(x)
     end
+end
+
+@mkdeepconvert(deepbigint,BigInt)
+
+macro bi_str(s)
+    deepbigint(s)
+end
+
+@mkdeepconvert(deepbigfloat,BigFloat)
+
+macro bf_str(s)
+    deepbigfloat(s)
 end
 
 end # module

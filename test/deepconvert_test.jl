@@ -25,3 +25,5 @@ resb = conv128b(:( 1//4 ))
 @test conv128a(1) == 1
 @test typeof(conv128a(1)) == Int128
 @test conv128a("2^63") == int128(2)^63
+aa = BigInt[BigInt(2)^64,BigInt(2)^63]
+@test aa == bi"[2^64,2^63]"

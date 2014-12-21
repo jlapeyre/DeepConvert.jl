@@ -2,10 +2,30 @@
 
 [![Build Status](https://travis-ci.org/jlapeyre/DeepConvert.jl.svg?branch=master)](https://travis-ci.org/jlapeyre/DeepConvert.jl)
 
-This package defines macros that define functions to convert all
+This package provides convenient literal construction of values of
+large data types.
+
+It defines macros that define functions to convert all
 numbers in an expression to a given numeric type and evaluate that
 expression. It is meant to allow a convenient way to input large
 numbers without overflow.
+
+Two examples of non-standard AbstractString literals are exported,
+```bf``` and ```bi```, which construct ```BigFloat```s and
+```BigInt```s from strings.
+
+```julia
+julia> BigInt[2^64,2^63]
+2-element Array{BigInt,1}:  # it is an array of BigInt's!
+                    0
+ -9223372036854775808
+
+julia> using DeepConvert
+julia> a = bi"[2^63, 2^64]"
+2-element Array{BigInt,1}:
+  9223372036854775808
+ 18446744073709551616
+```
 
 ## @mkdeepconvert(funcname, convfunc)
 
