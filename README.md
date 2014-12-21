@@ -84,3 +84,12 @@ julia> resb = conv128b(:( 1//4 ))
 julia> typeof(resb)
 Rational{Int128} (constructor with 1 method)
 ```
+
+## bi, bf  non-standard AbstractString literals
+
+```bi``` is implemented by
+
+```julia
+@mkdeepconvert(deepbigint,BigInt)
+macro bi_str(s) deepbigint(s) end 
+```
