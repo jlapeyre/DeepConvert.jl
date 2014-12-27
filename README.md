@@ -10,6 +10,9 @@ numbers in an expression to a given numeric type and evaluate that
 expression. It is meant to allow a convenient way to input large
 numbers without overflow.
 
+The macros ```@bigint``` and ```@int128``` convert numeric literals
+in the following expression to BigInt or Int128. See examples below.
+
 Two examples of non-standard AbstractString literals are exported,
 ```bf``` and ```bi```, which construct ```BigFloat```s and
 ```BigInt```s from strings.
@@ -99,7 +102,7 @@ Rational{Int128} (constructor with 1 method)
 macro bi_str(s) deepbigint(s) end 
 ```
 
-## @bigint
+## @bigint, @int128
 
 This is another experiment. Any Int and Int128 values in the
 expression following ```@bigint``` are converted to ```BigInt```. A contrived
