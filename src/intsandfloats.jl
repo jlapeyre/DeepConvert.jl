@@ -11,7 +11,8 @@ macro bigint(s)
     end
 end
 
-@mkdeepconvert2(deepbigint2,BigInt,Union(Int,Int128))
+#@mkdeepconvert2(deepbigint2,BigInt,Union(Int,Int128))
+@mkdeepconvert2(deepbigint2,BigInt,Integer)
 
 macro int128(s)
     return quote
