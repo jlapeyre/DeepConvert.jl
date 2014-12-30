@@ -7,15 +7,16 @@ large data types.
 
 It defines macros that define functions to convert all
 numbers in an expression to a given numeric type and evaluate that
-expression. It is meant to allow a convenient way to input large
+expression. (Like `deepcopy`, it traverses the entire expression tree.)
+It is meant to allow a convenient way to input large
 numbers without overflow.
 
-The macros ```@bigint``` and ```@int128``` convert numeric literals
+The macros `@bigint` and `@int128` convert numeric literals
 in the following expression to BigInt or Int128. See examples below.
 
 Two examples of non-standard AbstractString literals are exported,
-```bf``` and ```bi```, which construct ```BigFloat```s and
-```BigInt```s from strings.
+`bf` and `bi`, which construct `BigFloat`s and
+`BigInt`s from strings.
 
 ```julia
 julia> BigInt[2^63,2^64]
@@ -25,6 +26,11 @@ julia> BigInt[2^63,2^64]
 
 julia> using DeepConvert
 julia> a = bi"[2^63, 2^64]"
+2-element Array{BigInt,1}:
+  9223372036854775808
+ 18446744073709551616
+
+julia> @bigint [2^63, 2^64]
 2-element Array{BigInt,1}:
   9223372036854775808
  18446744073709551616
@@ -67,8 +73,8 @@ julia> convuint64(:( 10^19 + 10^17 ))
 ## @mkdeepconvert1(funcname, convfunc)
 
 Unlike @mkdeepconvert, @mkdeepconvert1 converts numerators and
-denominators of ```Rational```s resulting in a ```Rational``` of a
-different type.  @mkdeepconvert converts the entire ```Rational``` to
+denominators of `Rational`s resulting in a `Rational` of a
+different type.  @mkdeepconvert converts the entire `Rational` to
 another type.
 
 ### Example
@@ -95,7 +101,7 @@ Rational{Int128} (constructor with 1 method)
 
 ## bi, bf non-standard AbstractString literals
 
-```bi``` is implemented by
+`bi` is implemented by
 
 ```julia
 @mkdeepconvert(deepbigint,BigInt)
@@ -105,7 +111,7 @@ macro bi_str(s) deepbigint(s) end
 ## @bigint, @int128
 
 This is another experiment. Any Int and Int128 values in the
-expression following ```@bigint``` are converted to ```BigInt```. A contrived
+expression following `@bigint` are converted to `BigInt`. A contrived
 example:
 
 ```julia
@@ -128,7 +134,7 @@ To override the macro, you have to ask for the smaller type,
         end
 ```
 
-In effect, this temporarily makes ```BigInt``` the default integer type.
+In effect, this temporarily makes `BigInt` the default integer type.
 
 
 <!--  LocalWords:  DeepConvert AbstractString BigFloat BigInt julia
