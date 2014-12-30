@@ -11,8 +11,9 @@ macro bigint(s)
     end
 end
 
-#@mkdeepconvert2(deepbigint2,BigInt,Union(Int,Int128))
-@mkdeepconvert2(deepbigint2,BigInt,Integer)
+# The Union here does not work. Int128 are represented
+# differently in expressions.
+@mkdeepconvert2(deepbigint2,BigInt,Union(Int,Int128))
 
 macro int128(s)
     return quote
