@@ -91,9 +91,7 @@ macro mkdeepconvert3(ff, ccfunc, targtype)
              (x) ->
              begin
                tx = typeof(x)
-               tx <: $targtype  && return ($cfunc)(x)
-               return tx == Expr ?
-                   (isstringint(ex) ? Expr(:call,$cfunc,ex) : ($f)(x)) : x
+               tx <: $targtype ? ($cfunc)(x) : tx == Expr ? ($f)(x) : x
              end,
              ex.args)...)
         end
