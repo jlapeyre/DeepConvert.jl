@@ -21,5 +21,4 @@ macro int128(s)
     end
 end
 
-# This is not really tested
 @mkdeepconvert3(deepint128,int128,Int)

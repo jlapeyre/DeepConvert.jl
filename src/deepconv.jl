@@ -10,8 +10,8 @@ macro mkdeepconvert3(ff, ccfunc, targtype)
    quote
      function $(f)(ex::Expr)
        isstringint(ex) && return Expr(:call,$cfunc,ex)
-       Expr(ex.head, map((x) -> (typeof(x) <: $targtype ? ($cfunc)(x) : typeof(x) == Expr ? ($f)(x) : x),
-             ex.args)...)
+         Expr(ex.head, map((x) -> (typeof(x) <: $targtype ?
+           ($cfunc)(x) : typeof(x) == Expr ? ($f)(x) : x), ex.args)...)
      end
      ($f)(x::String) = ($f)(parse(x))
      ($f)(x) = ($cfunc)(x)

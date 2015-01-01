@@ -37,6 +37,11 @@ julia> @bigint [2^63, 2^64]
 ```
 
 ```julia
+julia> @int128 binomial(100,50)
+100891344545564193334812497256
+```
+
+```julia
 julia> round(bf"((1+2e-50)-(1+1e-50))/(1e-50)")
 1e+00 with 256 bits of precision
 ```
