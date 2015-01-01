@@ -79,31 +79,22 @@ macro mkdeepconvert2(ff, ccfunc, targtype)
 end
 
 
-function isstringint(ex::Expr)
-    ex.head == :macrocall &&
-    (ex.args[1] == symbol("@int128_str")
-     || ex.args[1] == symbol("@bigint_str"))
-end
+isstringint(ex::Expr) = ex.head == :macrocall &&
+    (ex.args[1] == symbol("@int128_str") || ex.args[1] == symbol("@bigint_str"))
     
 
 macro mkdeepconvert3(ff, ccfunc, targtype)
-    f = esc(ff)
-    cfunc = esc(ccfunc)
+    f = esc(ff); cfunc = esc(ccfunc)
     quote
         function $(f)(ex::Expr)
             isstringint(ex) && return Expr(:call,$cfunc,ex)
             Expr(ex.head, map(
-              (x) ->
+             (x) ->
              begin
                tx = typeof(x)
-               if tx <: $targtype
-                   return ($cfunc)(x)
-               elseif  tx == Expr
-                   isstringint(ex) && return Expr(:call,$cfunc,ex)                   
-                   return ($f)(x)
-               else
-                   return x
-               end
+               tx <: $targtype  && return ($cfunc)(x)
+               return tx == Expr ?
+                   (isstringint(ex) ? Expr(:call,$cfunc,ex) : ($f)(x)) : x
              end,
              ex.args)...)
         end
