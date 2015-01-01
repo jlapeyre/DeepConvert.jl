@@ -6,21 +6,16 @@ isstringint(ex::Expr) = ex.head == :macrocall &&
 # ff is the name of the function to be generated.
 # ccfunc is the existing function that does the conversion.
 macro mkdeepconvert3(ff, ccfunc, targtype)
-    f = esc(ff); cfunc = esc(ccfunc)
-    quote
-        function $(f)(ex::Expr)
-            isstringint(ex) && return Expr(:call,$cfunc,ex)
-            Expr(ex.head, map(
-             (x) ->
-             begin
-               tx = typeof(x)
-               tx <: $targtype ? ($cfunc)(x) : tx == Expr ? ($f)(x) : x
-             end,
+   f = esc(ff); cfunc = esc(ccfunc)
+   quote
+     function $(f)(ex::Expr)
+       isstringint(ex) && return Expr(:call,$cfunc,ex)
+       Expr(ex.head, map((x) -> (typeof(x) <: $targtype ? ($cfunc)(x) : typeof(x) == Expr ? ($f)(x) : x),
              ex.args)...)
-        end
-        ($f)(x::String) = ($f)(parse(x))
-        ($f)(x) = ($cfunc)(x)
-    end
+     end
+     ($f)(x::String) = ($f)(parse(x))
+     ($f)(x) = ($cfunc)(x)
+   end
 end
 
 macro mkdeepconvert(ff, ccfunc)
