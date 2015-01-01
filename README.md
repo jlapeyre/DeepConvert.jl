@@ -41,18 +41,6 @@ julia> round(bf"((1+2e-50)-(1+1e-50))/(1e-50)")
 1e+00 with 256 bits of precision
 ```
 
-## IMPORTANT !
- 
-These macros are currently broken in that Int128 cannot be
-converted to BigInt:
-
-```julia
-julia> typeof( @bigint 111111111111111111111111111)
-Int128
-```
-
-(It's not hard to fix, but takes a little time.)
-
 ## @mkdeepconvert(funcname, convfunc)
 
 ### Example

@@ -81,7 +81,6 @@ end
 
 isstringint(ex::Expr) = ex.head == :macrocall &&
     (ex.args[1] == symbol("@int128_str") || ex.args[1] == symbol("@bigint_str"))
-    
 
 macro mkdeepconvert3(ff, ccfunc, targtype)
     f = esc(ff); cfunc = esc(ccfunc)
@@ -95,46 +94,6 @@ macro mkdeepconvert3(ff, ccfunc, targtype)
                tx <: $targtype  && return ($cfunc)(x)
                return tx == Expr ?
                    (isstringint(ex) ? Expr(:call,$cfunc,ex) : ($f)(x)) : x
-             end,
-             ex.args)...)
-        end
-        ($f)(x::String) = ($f)(parse(x))
-        ($f)(x) = ($cfunc)(x)
-    end
-end
-
-
-macro mkdeepconvert4(ff, ccfunc, targtype)
-    f = esc(ff)
-    cfunc = esc(ccfunc)
-    quote
-        function $(f)(ex::Expr)
-            println("Got $ex !!!!")
-            if ex.head == :macrocall &&
-                (ex.args[1] == symbol("@int128_str")
-                 || ex.args[1] == symbol("@bigint_str"))
-                println("New branch")
-                return Expr(:call,$cfunc,ex)
-            end
-             Expr(ex.head, map(
-              (x) ->
-             begin
-               println("Working expr on $x")                                   
-               tx = typeof(x)
-               if tx <: $targtype
-                   return ($cfunc)(x)
-               elseif  tx == Expr
-                   if x.head == :macrocall &&
-                       (x.args[1] == symbol("@int128_str")
-                        || x.args[1] == symbol("@bigint_str"))
-                       println("New branch *2*")
-                       return Expr(:call,$cfunc,x)
-                   else
-                       return ($f)(x)
-                   end
-               else
-                   return x
-               end
              end,
              ex.args)...)
         end

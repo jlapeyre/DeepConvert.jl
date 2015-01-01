@@ -43,3 +43,6 @@ y = gg(1.0)
 @test typeof( @bigint(111111111111111111111111111 + 8)) == BigInt
 @test typeof(1111111111111111111111111 // 3) == Rational{Int128}
 @test typeof(@bigint(1111111111111111111111111 // 3)) == Rational{BigInt}
+
+# This is not desired behavior
+@test typeof(@int128( 23432432 // 3)) == Rational{Int64}
