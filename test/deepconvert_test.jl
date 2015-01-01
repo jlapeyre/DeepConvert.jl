@@ -39,6 +39,7 @@ y = gg(1.0)
 @test typeof(y) == BigFloat
 @test y > 0
 
-
-# This is not the desired behavior, but it is current behavior
-@test typeof( @bigint 111111111111111111111111111) == Int128
+@test typeof( @bigint 111111111111111111111111111) == BigInt
+@test typeof( @bigint(111111111111111111111111111 + 8)) == BigInt
+@test typeof(1111111111111111111111111 // 3) == Rational{Int128}
+@test typeof(@bigint(1111111111111111111111111 // 3)) == Rational{BigInt}
