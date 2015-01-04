@@ -11,8 +11,8 @@ expression. (Like `deepcopy`, it traverses the entire expression tree.)
 It is meant to allow a convenient way to input large
 numbers without overflow.
 
-The macros `@bigint` and `@int128` convert numeric literals
-in the following expression to BigInt or Int128. See examples below.
+The macros `@bigfloat`, `@bigint`, and `@int128` convert numeric literals
+in their argument to BigFloat, BigInt or Int128. See examples below.
 
 Two examples of non-standard AbstractString literals are exported,
 `bf` and `bi`, which construct `BigFloat`s and

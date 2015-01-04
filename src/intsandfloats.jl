@@ -1,4 +1,5 @@
 export deepbigint2
+export @bigfloat
 
 @mkdeepconvert1(deepbigint,BigInt)
 macro bi_str(s) deepbigint(s) end
@@ -9,11 +10,23 @@ macro bf_str(s) deepbigfloat(s) end
 
 macro bigint(s)
     return quote
-        $(esc(deepbigint2(s)))        
+        $(esc(deepbigint2(s)))
     end
 end
 
+macro bigfloat(s)
+    return quote
+        $(esc(deepbigfloat(s)))
+    end
+end
+
+
+
 @mkdeepconvert3(deepbigint2,BigInt,Int)
+
+# hmm, this does not work
+@mkdeepconvert3(deepbigfloat2,BigFloat,Real)
+
 
 macro int128(s)
     return quote

@@ -45,3 +45,5 @@ y = gg(1.0)
 @test typeof(@bigint(1111111111111111111111111 // 3)) == Rational{BigInt}
 
 @test typeof(@int128( 23432432 // 3)) == Rational{Int128}
+
+@test (BigFloat(1) * BigFloat(10)^-10 -  @bigfloat 1/10^10) == 0
