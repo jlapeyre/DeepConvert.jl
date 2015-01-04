@@ -1,7 +1,5 @@
 # DeepConvert
 
-[![Build Status](https://travis-ci.org/jlapeyre/DeepConvert.jl.svg?branch=master)](https://travis-ci.org/jlapeyre/DeepConvert.jl)
-
 This package provides convenient literal construction of values of
 large data types.
 
@@ -44,6 +42,19 @@ julia> @int128 binomial(100,50)
 ```julia
 julia> round(bf"((1+2e-50)-(1+1e-50))/(1e-50)")
 1e+00 with 256 bits of precision
+```
+
+`deepbigfloat` takes an expression or string as an argument and acts on literals
+
+```julia
+julia> a = parse("1+1")
+:(1 + 1)
+
+julia> deepbigfloat(a)
+2e+00 with 256 bits of precision
+
+julia> deepbigfloat("1+1")
+2e+00 with 256 bits of precision
 ```
 
 ## @mkdeepconvert(funcname, convfunc)

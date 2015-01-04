@@ -47,3 +47,7 @@ y = gg(1.0)
 @test typeof(@int128( 23432432 // 3)) == Rational{Int128}
 
 @test (BigFloat(1) * BigFloat(10)^-10 -  @bigfloat 1/10^10) == 0
+
+a = parse("1+1")
+@test deepbigfloat(a) == BigFloat(2)
+@test deepbigfloat("1+1") == BigFloat(2)
