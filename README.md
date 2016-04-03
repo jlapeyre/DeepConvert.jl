@@ -3,6 +3,9 @@
 This package provides convenient literal construction of values of
 large data types.
 
+[Note: Updated to fix deprecation warnings. But some are not done: they are not completely trivial
+to fix!]
+
 It defines macros that define functions to convert all
 numbers in an expression to a given numeric type and evaluate that
 expression. (Like `deepcopy`, it traverses the entire expression tree.)
@@ -159,5 +162,5 @@ In effect, this temporarily makes `BigInt` the default integer type.
  -->
 <!--  LocalWords:  convuint uint ce conv resa typeof resb deepbigint
  -->
-<!--  LocalWords:  str
+<!--  LocalWords:  str deepcopy bigint deepbigfloat
  -->

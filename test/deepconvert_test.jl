@@ -30,7 +30,7 @@ aa = BigInt[BigInt(2)^64,BigInt(2)^63]
 
 @test bi"(10^53 - 1) // 9"  == (BigInt(10)^53-1)//9
 
-@test bf"1e-50+1" == BigFloat("1e-50") + BigFloat(1)
+@test bf"1e-50+1" == parse(BigFloat, "1e-50") + BigFloat(1)
 
 @bigint function gg(x)
               2^64 * x

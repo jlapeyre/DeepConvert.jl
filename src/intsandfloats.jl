@@ -5,7 +5,7 @@ export @bigfloat
 @mkdeepconvert1(deepbigint,BigInt)
 macro bi_str(s) deepbigint(s) end
 
-_deepbigfloat(x::Real) = BigFloat(string(x))
+_deepbigfloat(x::Real) = parse(BigFloat, string(x))
 @mkdeepconvert(deepbigfloat,_deepbigfloat)
 macro bf_str(s) deepbigfloat(s) end
 

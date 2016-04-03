@@ -13,11 +13,18 @@ macro mkdeepconvert3(ff, ccfunc, targtype)
          Expr(ex.head, map((x) -> (typeof(x) <: $targtype ?
            ($cfunc)(x) : typeof(x) == Expr ? ($f)(x) : x), ex.args)...)
      end
-     ($f)(x::String) = ($f)(parse(x))
+     ($f)(x::AbstractString) = ($f)(parse(x))
      ($f)(x) = ($cfunc)(x)
    end
 end
 
+# Sun Apr  3 17:57:10 CEST 2016
+# This assumes older constructions, eg.
+# int128(x) work.
+#  int128(1), int128(1//3) both work,
+#  and this works: Int128(1), but
+#  this Int128(1//4) gives an error.
+# This will take some logic to fix.
 macro mkdeepconvert(ff, ccfunc)
     f = esc(ff)
     cfunc = esc(ccfunc)
@@ -41,7 +48,7 @@ macro mkdeepconvert(ff, ccfunc)
                ex.args)...))
             end 
         end
-        ($f)(x::String) = ($f)(parse(x))
+        ($f)(x::AbstractString) = ($f)(parse(x))
         ($f)(x) = ($cfunc)(x)
     end
 end
@@ -65,7 +72,7 @@ macro mkdeepconvert1(ff, ccfunc)
              end,
              ex.args)...))
         end
-        ($f)(x::String) = ($f)(parse(x))
+        ($f)(x::AbstractString) = ($f)(parse(x))
         ($f)(x) = ($cfunc)(x)
     end
 end
@@ -89,7 +96,7 @@ macro mkdeepconvert2(ff, ccfunc, targtype)
              end,
              ex.args)...)
         end
-        ($f)(x::String) = ($f)(parse(x))
+        ($f)(x::AbstractString) = ($f)(parse(x))
         ($f)(x) = ($cfunc)(x)
     end
 end
