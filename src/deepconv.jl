@@ -1,38 +1,17 @@
-export @mkdeepconvert3
+#export @mkdeepconvert3
 
 isstringint(ex::Expr) = ex.head == :macrocall &&
-    (ex.args[1] == symbol("@int128_str") || ex.args[1] == symbol("@bigint_str"))
+    (ex.args[1] == Symbol("@int128_str") || ex.args[1] == Symbol("@bigint_str"))
 
-# ff is the name of the function to be generated.
-# ccfunc is the existing function that does the conversion.
-macro mkdeepconvert3(ff, ccfunc, targtype)
-   f = esc(ff); cfunc = esc(ccfunc)
-   quote
-     function $(f)(ex::Expr)
-       isstringint(ex) && return Expr(:call,$cfunc,ex)
-         Expr(ex.head, map((x) -> (typeof(x) <: $targtype ?
-           ($cfunc)(x) : typeof(x) == Expr ? ($f)(x) : x), ex.args)...)
-     end
-     ($f)(x::AbstractString) = ($f)(parse(x))
-     ($f)(x) = ($cfunc)(x)
-   end
-end
-
-# Sun Apr  3 17:57:10 CEST 2016
-# This assumes older constructions, eg.
-# int128(x) work.
-#  int128(1), int128(1//3) both work,
-#  and this works: Int128(1), but
-#  this Int128(1//4) gives an error.
-# This will take some logic to fix.
 macro mkdeepconvert(ff, ccfunc)
     f = esc(ff)
     cfunc = esc(ccfunc)
     quote
         function ($f)(ex::Expr)
             if ex.args[1] == ://
-                return ($cfunc)(eval(ex))
-            else 
+                evex = eval(ex)
+                return convert(promote_type($cfunc, typeof(evex)), evex)
+            else
               eval(Expr(ex.head, map(
               (x) ->
                 begin
@@ -46,9 +25,9 @@ macro mkdeepconvert(ff, ccfunc)
                     end
                 end,
                ex.args)...))
-            end 
+            end
         end
-        ($f)(x::AbstractString) = ($f)(parse(x))
+        ($f)(x::AbstractString) = ($f)(Meta.parse(x))
         ($f)(x) = ($cfunc)(x)
     end
 end
@@ -72,7 +51,7 @@ macro mkdeepconvert1(ff, ccfunc)
              end,
              ex.args)...))
         end
-        ($f)(x::AbstractString) = ($f)(parse(x))
+        ($f)(x::AbstractString) = ($f)(Meta.parse(x))
         ($f)(x) = ($cfunc)(x)
     end
 end
@@ -96,7 +75,22 @@ macro mkdeepconvert2(ff, ccfunc, targtype)
              end,
              ex.args)...)
         end
-        ($f)(x::AbstractString) = ($f)(parse(x))
+        ($f)(x::AbstractString) = ($f)(Meta.parse(x))
         ($f)(x) = ($cfunc)(x)
     end
+end
+
+# ff is the name of the function to be generated.
+# ccfunc is the existing function that does the conversion.
+macro mkdeepconvert3(ff, ccfunc, targtype)
+   f = esc(ff); cfunc = esc(ccfunc)
+   quote
+     function $(f)(ex::Expr)
+       isstringint(ex) && return Expr(:call, $cfunc, ex)
+         Expr(ex.head, map((x) -> (typeof(x) <: $targtype ?
+           ($cfunc)(x) : typeof(x) == Expr ? ($f)(x) : x), ex.args)...)
+     end
+     ($f)(x::AbstractString) = ($f)(Meta.parse(x))
+     ($f)(x) = ($cfunc)(x)
+   end
 end

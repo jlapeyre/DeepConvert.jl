@@ -1,4 +1,4 @@
 using DeepConvert
-using Base.Test
+using Test
 
 include("deepconvert_test.jl")

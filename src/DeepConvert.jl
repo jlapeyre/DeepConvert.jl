@@ -1,6 +1,5 @@
 module DeepConvert
 
-
 include("deepconv.jl")
 include("intsandfloats.jl")
 
