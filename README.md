@@ -10,6 +10,8 @@ Windows: [![Build Status](https://ci.appveyor.com/api/projects/status/github/jla
 [![Coverage Status](https://coveralls.io/repos/jlapeyre/DeepConvert.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/jlapeyre/DeepConvert.jl?branch=master)
 [![codecov.io](http://codecov.io/github/jlapeyre/DeepConvert.jl/coverage.svg?branch=master)](http://codecov.io/github/jlapeyre/DeepConvert.jl?branch=master)
 
+Most of the following is also in this [Jupyter notebook](https://github.com/jlapeyre/DeepConvert.jl/blob/master/Notebooks/DeepConvert.ipynb).
+
 This package provides convenient literal construction of values of
 large data types.
 
@@ -29,18 +31,18 @@ literal `big` in Julia `Base`.
 
 ```julia
 julia> BigInt[2^63, 2^64]
-2-element Array{BigInt, 1}:  # awesome, an array of BigInt's!
+2-element Array{BigInt,1}:  # awesome, an array of BigInt's!
  -9223372036854775808
                     0
 
 julia> using DeepConvert
 julia> bi"[2^63, 2^64]"
-2-element Array{BigInt, 1}:
+2-element Array{BigInt,1}:
   9223372036854775808
  18446744073709551616
 
 julia> @bigint [2^63, 2^64]
-2-element Array{BigInt, 1}:
+2-element Array{BigInt,1}:
   9223372036854775808
  18446744073709551616
 ```
@@ -55,7 +57,7 @@ julia> @int128 binomial(100, 50)
 
 ```julia
 julia> round(bf"((1 + 2e-50) - (1 + 1e-50)) / (1e-50)")
-1e+00 with 256 bits of precision
+1.0
 ```
 
 `deepbigfloat` takes an expression or string as an argument and acts on literals
@@ -123,7 +125,7 @@ Gives this,
 
 ```julia
 julia> g(2.0)
-3.6893488147419103232e+19 with 256 bits of precision
+3.6893488147419103232e+19
 ```
 
 To override the macro, you have to ask for the smaller type,
