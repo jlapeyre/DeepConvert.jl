@@ -1,5 +1,15 @@
 # DeepConvert
 
+*convenient literal construction of values of large data types*
+
+<!-- [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://jlapeyre.github.io/DeepConvert.jl/latest) -->
+Linux, OSX: [![Build Status](https://travis-ci.org/jlapeyre/DeepConvert.jl.svg?branch=master)](https://travis-ci.org/jlapeyre/DeepConvert.jl)
+&nbsp;
+Windows: [![Build Status](https://ci.appveyor.com/api/projects/status/github/jlapeyre/DeepConvert.jl?branch=master&svg=true)](https://ci.appveyor.com/project/jlapeyre/deepconvert-jl)
+&nbsp; &nbsp; &nbsp;
+[![Coverage Status](https://coveralls.io/repos/jlapeyre/DeepConvert.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/jlapeyre/DeepConvert.jl?branch=master)
+[![codecov.io](http://codecov.io/github/jlapeyre/DeepConvert.jl/coverage.svg?branch=master)](http://codecov.io/github/jlapeyre/DeepConvert.jl?branch=master)
+
 This package provides convenient literal construction of values of
 large data types.
 
@@ -24,7 +34,7 @@ julia> BigInt[2^63, 2^64]
                     0
 
 julia> using DeepConvert
-julia> a = bi"[2^63, 2^64]"
+julia> bi"[2^63, 2^64]"
 2-element Array{BigInt, 1}:
   9223372036854775808
  18446744073709551616
@@ -36,6 +46,9 @@ julia> @bigint [2^63, 2^64]
 ```
 
 ```julia
+julia> binomial(100, 50)
+ERROR: OverflowError: binomial(100, 50) overflows
+
 julia> @int128 binomial(100, 50)
 100891344545564193334812497256
 ```
