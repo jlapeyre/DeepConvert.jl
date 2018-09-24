@@ -1,0 +1,12 @@
+name = "DeepConvert"
+uuid = "5b98e4f6-c044-11e8-2d79-8d2fd49973f6"
+authors = ["John Lapeyre <jlapeyre@users.noreply.github.com>"]
+version = "0.2.0"
+
+[deps]
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
